@@ -1,7 +1,7 @@
 NAME = ft_turing
 DUNE = opam exec -- dune
 TARGET = _build/default/bin/main.exe
-INIT = opam init -y && opam install dune -y && opam install batteries -y
+INIT = opam init -y && opam install dune -y && opam install yojson -y
 
 $(TARGET):
 	$(DUNE) build
