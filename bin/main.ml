@@ -11,3 +11,7 @@ let () =
       print_endline ("Error : " ^ msg)
   | Sys_error msg ->
       print_endline ("Error : " ^ msg)
+  | Check_info.Wrong_content msg ->
+      print_endline ("Error : " ^ msg)
+  | _ ->
+      print_endline ("Unknown error")
