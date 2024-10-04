@@ -59,6 +59,67 @@ let check_file path =
       raise (Wrong_content "Finals not a valid state")
   in
 
+  let check_transition_one states finals (lst_name, lst_content) =
+    let content = lst_content |> to_list in
+    if content <> [] then
+      if List.mem lst_name states then
+        if List.mem lst_name finals then
+          raise (Wrong_content (lst_name ^ " : is also a final"))
+        else
+          ()
+        else
+        raise (Wrong_content (lst_name ^ " : Not a state"))
+    else
+      raise (Wrong_content (lst_name ^ " : Too short"))
+  in
+
+  let check_transition_two initial transitions =
+    let same key (k,_) =
+      if k = key then
+        true
+      else
+        false
+    in
+    if List.exists (same initial) transitions = true then
+      ()
+    else
+      raise (Wrong_content "Initial is not a part of transitions")
+  in
+
+  let check_transition_three states finals transitions =
+    let s = List.length states in
+    let f = List.length finals in
+    let t = List.length transitions in
+    if f + t = s then
+      ()
+    else
+      raise (Wrong_content "Some states are not used")
+  in
+
+  let check_transition_four alphabet states (_, lst_n) =
+    let check_lines alphabet states line =
+      let read = line |> member "read" |> to_string in
+      let to_state = line |> member "to_state" |> to_string in
+      let write = line |> member "write" |> to_string in
+      let action = line |> member "action" |> to_string in
+      if List.mem read alphabet then
+        if List.mem to_state states then
+          if List.mem write alphabet then
+            if action = "RIGHT" || action = "LEFT" then
+              ()
+            else
+              raise (Wrong_content "Action content has to be RIGHT or LEFT")
+          else
+            raise (Wrong_content "Write content is not in alphabet")
+        else
+          raise (Wrong_content "To_state content is not a state")
+      else
+        raise (Wrong_content "Read content is not in alphabet")
+    in
+    let lst = lst_n |> to_list in
+    List.iter (check_lines alphabet states) lst
+  in
+  
   try
     let json = from_file path in
     let name = json |> member "name" |> to_string in
@@ -76,6 +137,10 @@ let check_file path =
     List.iter check_states states;
     check_initial states initial;
     List.iter (check_finals states) finals;
+    List.iter (check_transition_one states finals) transitions;
+    check_transition_two initial transitions;
+    check_transition_three states finals transitions;
+    List.iter (check_transition_four alphabet states) transitions;
 
     json
   with 
