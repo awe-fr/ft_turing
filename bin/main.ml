@@ -4,8 +4,8 @@ let () =
   let input = "111-11=" in
   let path = "./json/unary_sub.json" in
   try
-    let _ = Check_info.check_file path input in
-    (* let _print *)
+    let json = Check_info.check_file path input in
+    Turing_machine.print_info json;
     ()
   with 
   | Type_error (msg, _) ->

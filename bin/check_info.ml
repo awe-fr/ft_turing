@@ -32,7 +32,7 @@ let check_file path input =
   in
 
   let check_blank lst blank = 
-    if List.mem blank lst then
+    if List.mem blank lst && String.length blank > 0 then
       ()
     else
       raise (Wrong_content "Blank not in alphabet")
