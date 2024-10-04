@@ -3,7 +3,7 @@ open Yojson.Basic.Util
 
 exception Wrong_content of string
 
-let check_file path =
+let check_file path input =
   let check_individual individual =
     let _ = individual |> member "read" |> to_string in
     let _ = individual |> member "to_state" |> to_string in
@@ -120,6 +120,24 @@ let check_file path =
     List.iter (check_lines alphabet states) lst
   in
   
+  let rec check_input alphabet blank input index =
+    if String.length input <= 0 then
+      raise (Wrong_content "Index too short")
+    else
+      if index >= String.length input then
+        ()
+      else
+        let car_c = String.get input index in
+        let car = String.make 1 car_c in
+        if List.mem car alphabet then
+          if car <> blank then
+            check_input alphabet blank input (index + 1)
+          else
+            raise (Wrong_content ("Input '" ^ car ^ "' : is the blank character"))
+        else
+          raise (Wrong_content ("Input '" ^ car ^ "' : is not in the alphabet"))
+  in
+
   try
     let json = from_file path in
     let name = json |> member "name" |> to_string in
@@ -141,6 +159,8 @@ let check_file path =
     check_transition_two initial transitions;
     check_transition_three states finals transitions;
     List.iter (check_transition_four alphabet states) transitions;
+
+    check_input alphabet blank input 0;
 
     json
   with 

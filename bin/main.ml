@@ -1,8 +1,11 @@
 open Yojson.Basic.Util
 
 let () =
+  let input = "111-11=" in
+  let path = "./json/unary_sub.json" in
   try
-    let _ = Check_info.check_file "./json/unary_sub.json" in
+    let _ = Check_info.check_file path input in
+    (* let _print *)
     ()
   with 
   | Type_error (msg, _) ->
