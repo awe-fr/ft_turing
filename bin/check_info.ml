@@ -21,42 +21,42 @@ let check_file path input =
     if String.length name <> 0 then
       ()
     else
-      raise (Wrong_content "Bad name")
+      raise (Wrong_content "Bad name.")
   in
 
   let check_alphabet letter =
     if String.length letter = 1 then
       ()
     else
-      raise (Wrong_content "Bad alphabet")
+      raise (Wrong_content "Bad alphabet.")
   in
 
   let check_blank lst blank = 
     if List.mem blank lst && String.length blank > 0 then
       ()
     else
-      raise (Wrong_content "Blank not in alphabet")
+      raise (Wrong_content "Blank not in alphabet.")
   in
 
   let check_states states =
     if String.length states <> 0 then
       ()
     else
-      raise (Wrong_content "Bad states")
+      raise (Wrong_content "Bad states.")
   in
 
   let check_initial lst initial = 
     if List.mem initial lst then
       ()
     else
-      raise (Wrong_content "Initial not a valid state")
+      raise (Wrong_content "Initial not a valid state.")
   in
 
   let check_finals lst final = 
     if List.mem final lst then
       ()
     else
-      raise (Wrong_content "Finals not a valid state")
+      raise (Wrong_content "Finals not a valid state.")
   in
 
   let check_transition_one states finals (lst_name, lst_content) =
@@ -64,13 +64,13 @@ let check_file path input =
     if content <> [] then
       if List.mem lst_name states then
         if List.mem lst_name finals then
-          raise (Wrong_content (lst_name ^ " : is also a final"))
+          raise (Wrong_content (lst_name ^ " : is also a final."))
         else
           ()
         else
-        raise (Wrong_content (lst_name ^ " : Not a state"))
+        raise (Wrong_content (lst_name ^ " : Not a state."))
     else
-      raise (Wrong_content (lst_name ^ " : Too short"))
+      raise (Wrong_content (lst_name ^ " : Too short."))
   in
 
   let check_transition_two initial transitions =
@@ -83,7 +83,7 @@ let check_file path input =
     if List.exists (same initial) transitions = true then
       ()
     else
-      raise (Wrong_content "Initial is not a part of transitions")
+      raise (Wrong_content "Initial is not a part of transitions.")
   in
 
   let check_transition_three states finals transitions =
@@ -93,7 +93,7 @@ let check_file path input =
     if f + t = s then
       ()
     else
-      raise (Wrong_content "Some states are not used")
+      raise (Wrong_content "Some states are not used.")
   in
 
   let check_transition_four alphabet states (_, lst_n) =
@@ -108,13 +108,13 @@ let check_file path input =
             if action = "RIGHT" || action = "LEFT" then
               ()
             else
-              raise (Wrong_content "Action content has to be RIGHT or LEFT")
+              raise (Wrong_content "Action content has to be RIGHT or LEFT.")
           else
-            raise (Wrong_content "Write content is not in alphabet")
+            raise (Wrong_content "Write content is not in alphabet.")
         else
-          raise (Wrong_content "To_state content is not a state")
+          raise (Wrong_content "To_state content is not a state.")
       else
-        raise (Wrong_content "Read content is not in alphabet")
+        raise (Wrong_content "Read content is not in alphabet.")
     in
     let lst = lst_n |> to_list in
     List.iter (check_lines alphabet states) lst
@@ -122,7 +122,7 @@ let check_file path input =
   
   let rec check_input alphabet blank input index =
     if String.length input <= 0 then
-      raise (Wrong_content "Index too short")
+      raise (Wrong_content "Index too short.")
     else
       if index >= String.length input then
         ()
@@ -133,9 +133,9 @@ let check_file path input =
           if car <> blank then
             check_input alphabet blank input (index + 1)
           else
-            raise (Wrong_content ("Input '" ^ car ^ "' : is the blank character"))
+            raise (Wrong_content ("Input '" ^ car ^ "' : is the blank character."))
         else
-          raise (Wrong_content ("Input '" ^ car ^ "' : is not in the alphabet"))
+          raise (Wrong_content ("Input '" ^ car ^ "' : is not in the alphabet."))
   in
 
   try
