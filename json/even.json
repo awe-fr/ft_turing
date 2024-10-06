@@ -1,5 +1,5 @@
 {
-    "name" : "pair",
+    "name" : "even",
     "alphabet" : [ "0", ".", "Y", "N" ],
     "blank" : ".",
     "states" : [ "scanleft", "scanright", "top_right", "top_left", "yes", "no", "HALT" ],
