@@ -1,8 +1,8 @@
 open Yojson.Basic.Util
 
 let () =
-  let input = "aaababbabaa" in
-  let path = "./json/palindrome.json" in
+  let input = "00" in
+  let path = "./json/pair.json" in
   try
     let json = Check_info.check_file path input in
     Turing_machine.print_info json;
