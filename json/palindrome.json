@@ -1,0 +1,55 @@
+{
+    "name" : "palindrome",
+    "alphabet": [ "a", "b", ".", "Y", "N"],
+    "blank" : ".",
+    "states" : [ "scanright", "check_a", "check_b", "is_a", "is_b", "reset_pos", "yes", "no", "HALT" ],
+    "initial" : "scanright",
+    "finals" : [ "HALT" ],
+
+    "transitions" : {
+
+        "scanright" : [
+            { "read" : "a", "to_state": "check_a", "write": ".", "action": "RIGHT"},
+            { "read" : "b", "to_state": "check_b", "write": ".", "action": "RIGHT"},
+            { "read" : ".", "to_state": "yes", "write": ".", "action": "RIGHT"}
+        ],
+
+        "check_a" : [
+            { "read" : "a", "to_state": "check_a", "write": "a", "action": "RIGHT"},
+            { "read" : "b", "to_state": "check_a", "write": "b", "action": "RIGHT"},
+            { "read" : ".", "to_state": "is_a", "write": ".", "action": "LEFT"}
+        ],
+
+        "check_b" : [
+            { "read" : "a", "to_state": "check_b", "write": "a", "action": "RIGHT"},
+            { "read" : "b", "to_state": "check_b", "write": "b", "action": "RIGHT"},
+            { "read" : ".", "to_state": "is_b", "write": ".", "action": "LEFT"}
+        ],
+
+        "is_a" : [
+            { "read" : "a", "to_state": "reset_pos", "write": ".", "action": "LEFT"},
+            { "read" : "b", "to_state": "no", "write": "b", "action": "RIGHT"},
+            { "read" : ".", "to_state": "yes", "write": ".", "action": "RIGHT"}
+        ],
+
+        "is_b" : [
+            { "read" : "b", "to_state": "reset_pos", "write": ".", "action": "LEFT"},
+            { "read" : "a", "to_state": "no", "write": "a", "action": "RIGHT"},
+            { "read" : ".", "to_state": "yes", "write": ".", "action": "RIGHT"}
+        ],
+
+        "reset_pos" : [
+            { "read" : "a", "to_state": "reset_pos", "write": "a", "action": "LEFT"},
+            { "read" : "b", "to_state": "reset_pos", "write": "b", "action": "LEFT"},
+            { "read" : ".", "to_state": "scanright", "write": ".", "action": "RIGHT"}
+        ],
+
+        "yes" : [
+            { "read" : ".", "to_state": "HALT", "write": "Y", "action": "RIGHT"}
+        ],
+
+        "no" : [
+            { "read" : ".", "to_state": "HALT", "write": "N", "action": "RIGHT"}
+        ]
+    }
+}
