@@ -122,7 +122,7 @@ let check_file path input =
   
   let rec check_input alphabet blank input index =
     if String.length input <= 0 then
-      raise (Wrong_content "Index too short.")
+      raise (Wrong_content "Input too short.")
     else
       if index >= String.length input then
         ()

@@ -1,6 +1,17 @@
 open Yojson.Basic.Util
 
+
+
 let () =
+  let help () = 
+    Printf.printf "usage: ft_turing [-h] jsonfile input\n\n";
+    Printf.printf "positional arguments:\n";
+    Printf.printf "    jsonfile        json description of the machine\n\n";
+    Printf.printf "    input        input of the machine\n\n";
+    Printf.printf "optional arguments:\n";
+    Printf.printf "    -h, --help        show this help message and exit\n";
+    ()
+  in
   let ac = Array.length Sys.argv in
   if ac = 3 then
     try
@@ -21,6 +32,15 @@ let () =
         print_endline ("Error : " ^ msg)
     | _ ->
         print_endline ("Unknown error")
+  else if ac = 2 then
+    let cmd = Sys.argv.(1) in
+    if cmd = "--help" || cmd = "-h" then begin
+      help ();
+      ()
+    end else begin
+      print_endline "Wrong arguments : ./ft_turing -h";
+      ()
+    end
   else
-    print_endline "Wrong arguments : ./exec ./json tape";
+    print_endline "Wrong arguments : ./ft_turing -h";
     ()
