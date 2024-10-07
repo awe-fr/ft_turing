@@ -3,6 +3,7 @@ open Yojson.Basic.Util
 
 
 let () =
+
   let help () = 
     Printf.printf "usage: ft_turing [-h] jsonfile input\n\n";
     Printf.printf "positional arguments:\n";
@@ -12,18 +13,29 @@ let () =
     Printf.printf "    -h, --help        show this help message and exit\n";
     ()
   in
+
+  let rec check_help ac index =
+    if index >= ac then
+      -1
+    else
+      let cmd = Sys.argv.(index) in
+      if cmd = "--help" || cmd = "-h" then begin
+        help ();
+        1
+      end else begin
+        check_help ac (index + 1)
+      end
+  in
+
   let ac = Array.length Sys.argv in
-  if ac = 3 then
-    let cmd = Sys.argv.(1) in
-    if cmd = "--help" || cmd = "-h" then begin
-      help ();
-      ()
-    end else begin
+  let is = check_help ac 1 in
+  if is = -1 then
+    if ac = 3 then
       try
-        let json = Check_info.check_file Sys.argv.(1) Sys.argv.(2) in
-        Turing_machine.print_info json;
-        Turing_machine.launch json Sys.argv.(2);
-        ()
+          let json = Check_info.check_file Sys.argv.(1) Sys.argv.(2) in
+          Turing_machine.print_info json;
+          Turing_machine.launch json Sys.argv.(2);
+          ()
       with 
       | Type_error (msg, _) ->
           print_endline ("Error : " ^ msg)
@@ -37,16 +49,5 @@ let () =
           print_endline ("Error : " ^ msg)
       | _ ->
           print_endline ("Unknown error")
-    end
-  else if ac = 2 then
-    let cmd = Sys.argv.(1) in
-    if cmd = "--help" || cmd = "-h" then begin
-      help ();
-      ()
-    end else begin
-      print_endline "Wrong arguments : ./ft_turing -h";
-      ()
-    end
   else
-    print_endline "Wrong arguments : ./ft_turing -h";
     ()
