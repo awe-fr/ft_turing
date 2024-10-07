@@ -30,7 +30,7 @@ let () =
   let ac = Array.length Sys.argv in
   let is = check_help ac 1 in
   if is = -1 then
-    if ac = 3 then
+    if ac = 3 then begin
       try
           let json = Check_info.check_file Sys.argv.(1) Sys.argv.(2) in
           Turing_machine.print_info json;
@@ -49,5 +49,9 @@ let () =
           print_endline ("Error : " ^ msg)
       | _ ->
           print_endline ("Unknown error")
+    end else begin
+      Printf.printf "Error : Wrong arguments : ./ft_turing -h\n";
+      ()
+    end
   else
     ()
